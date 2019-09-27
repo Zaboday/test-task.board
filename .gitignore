@@ -1,0 +1,38 @@
+/node_modules
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+.env.backup
+.phpunit.result.cache
+Homestead.json
+Homestead.yaml
+npm-debug.log
+yarn-error.log
+
+/logs
+/.data
+.env
+
+# Environment deps.
+/.env
+/composer.phar
+
+# IDEs
+/nbproject
+/.idea
+
+
+# Temp dirs & trash
+/temp
+/tmp
+/build
+/.build
+coverage*
+.DS_Store
+*.cache
+
+.phpstorm.meta.php
+_ide_helper.php
+.php_cs.cache
+.phpunit.result.cache

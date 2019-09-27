@@ -1,0 +1,26 @@
+version: '3.6'
+
+services:
+    db:
+        image: postgres:alpine
+        environment:
+            POSTGRES_DB: laravel
+            POSTGRES_USER: laravel
+            POSTGRES_PASSWORD: 111
+        volumes:
+            - ./.data/db:/var/lib/postgresql/data:rw
+        ports: [5432, '15432:5432']
+    php-fpm:
+        build:
+            context: docker_src/php7-fpm
+            args:
+                TIMEZONE: UTC
+        volumes:
+            - ./:/var/www/laravel
+    nginx:
+        build: docker_src/nginx
+        ports:
+            - 8089:80
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+            - ./:/var/www/laravel
