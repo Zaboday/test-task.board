@@ -15,5 +15,6 @@ return PhpCsFixer\Config::create()
     ->setRules([
         '@Symfony' => true,
         'full_opening_tag' => false,
+        'phpdoc_no_empty_return' => false,
     ])
     ->setFinder($finder);

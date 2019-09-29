@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Unit\App\Services\Storage;
 
 use Mockery as m;
@@ -12,12 +14,18 @@ use Illuminate\Database\Eloquent\Collection;
 
 abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
 {
-    public function testGetModel()
+    /**
+     * @return void
+     */
+    public function testGetModel(): void
     {
         $this->assertSame($model = $this->instanceModel(), $this->instanceFactory($model)->getModel());
     }
 
-    public function testCreate()
+    /**
+     * @return void
+     */
+    public function testCreate(): void
     {
         $data = ['foo' => Str::random(), 'bar' => Str::random()];
 
@@ -32,10 +40,13 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
 
         $model = m::mock(\get_class($this->instanceModel()))->expects('newQuery')->andReturn($queryBuilder)->getMock();
 
-        $this->assertSame(true, $this->instanceFactory($model)->create($data));
+        $this->assertTrue($this->instanceFactory($model)->create($data));
     }
 
-    public function testFindBy()
+    /**
+     * @return void
+     */
+    public function testFindBy(): void
     {
         $where = [Str::random(), Str::random(), Str::random()];
 
@@ -62,7 +73,7 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
     /**
      * @throws \Exception
      */
-    public function testFind()
+    public function testFind(): void
     {
         $queryBuilder = m::mock(Builder::class)
             ->expects('find')
@@ -77,7 +88,7 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
     /**
      * @throws \Exception
      */
-    public function testCount()
+    public function testCount(): void
     {
         $where = [Str::random(), Str::random(), Str::random()];
 
@@ -104,7 +115,7 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
     /**
      * @throws \Exception
      */
-    public function testPageWhere()
+    public function testPageWhere(): void
     {
         $where = [Str::random(), Str::random(), Str::random()];
 
@@ -124,7 +135,7 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
     /**
      * @throws \Exception
      */
-    public function testDelete()
+    public function testDelete(): void
     {
         $queryBuilder = m::mock(Builder::class)
             ->expects('find')->with($id = \random_int(1, 1000))->andReturnSelf()->getMock()
@@ -136,11 +147,15 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
     }
 
     /**
+     * Should return storage Model.
+     *
      * @return Model
      */
     abstract public function instanceModel(): Model;
 
     /**
+     * Should return Model Storage.
+     *
      * @param mixed $model
      *
      * @return EloquentStorage

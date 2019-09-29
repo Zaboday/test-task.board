@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\Storage;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use App\Services\Storage\Contracts\StorageInterface;
 
 /**
@@ -13,7 +15,7 @@ use App\Services\Storage\Contracts\StorageInterface;
 class EloquentStorage implements StorageInterface
 {
     /**
-     * @var string
+     * @var Model
      */
     protected $model;
 

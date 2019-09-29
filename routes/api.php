@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +11,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('messages', 'Api\MessagesController@index');
+Route::get('messages/{id}', 'Api\MessagesController@show');
+
+Route::middleware('auth.api')->group(
+    static function () {
+        Route::get('user', 'Api\UsersController@show');
+        Route::post('messages', 'Api\MessagesController@store');
+        Route::delete('messages/{id}', 'Api\MessagesController@destroy');
+    }
+);
