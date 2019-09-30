@@ -36,6 +36,8 @@ class UserTest extends AbstractModelTestCase
             'created_at',
             'updated_at',
             'id',
+            'is_admin',
+            'email',
         ];
     }
 

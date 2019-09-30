@@ -16,7 +16,7 @@ Route::get('messages/{id}', 'Api\MessagesController@show');
 
 Route::middleware('auth.api')->group(
     static function () {
-        Route::get('user', 'Api\UsersController@show');
+        Route::get('users/me', 'Api\UsersController@profile');
         Route::post('messages', 'Api\MessagesController@store');
         Route::delete('messages/{id}', 'Api\MessagesController@destroy');
     }

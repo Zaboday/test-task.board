@@ -18,8 +18,8 @@ class UsersController extends BaseApiController
      *
      * @return array
      */
-    public function show(Request $request): array
+    public function profile(Request $request): array
     {
-        return $this->formatData($request->user());
+        return $this->formatResponseData($request->user());
     }
 }

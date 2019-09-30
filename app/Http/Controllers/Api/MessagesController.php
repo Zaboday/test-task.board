@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
@@ -20,11 +20,11 @@ class MessagesController extends BaseApiController
      *
      * @param MessageStorageInterface $storage
      *
-     * @return JsonResponse
+     * @return array
      */
-    public function index(MessageStorageInterface $storage): JsonResponse
+    public function index(MessageStorageInterface $storage): array
     {
-        return response()->json($this->formatData($storage->page(1, 10)));
+        return $this->formatResponseData($storage->page(1, 10));
     }
 
     /**
@@ -39,7 +39,7 @@ class MessagesController extends BaseApiController
     {
         $service->createMessage($request->user()->id, $request->get('text'));
 
-        return response()->json($this->formatData([]), 201);
+        return response()->json($this->formatResponseData([]), 201);
     }
 
     /**
@@ -48,11 +48,11 @@ class MessagesController extends BaseApiController
      * @param int                     $id
      * @param MessageStorageInterface $storage
      *
-     * @return JsonResponse
+     * @return array
      */
-    public function show($id, MessageStorageInterface $storage): JsonResponse
+    public function show($id, MessageStorageInterface $storage): array
     {
-        return response()->json($this->formatData($storage->find($id)));
+        return $this->formatResponseData($storage->find($id));
     }
 
     /**
@@ -62,14 +62,14 @@ class MessagesController extends BaseApiController
      * @param Request               $request
      * @param BoardServiceInterface $service
      *
-     * @return JsonResponse
+     * @return array
      *
      * @throws \Exception
      */
-    public function destroy($id, Request $request, BoardServiceInterface $service): JsonResponse
+    public function destroy($id, Request $request, BoardServiceInterface $service): array
     {
-        $service->deleteMessage($request->user()->id, (int)$id);
+        $service->deleteMessage($request->user()->id, (int) $id);
 
-        return response()->json($this->formatData('ok'));
+        return $this->formatResponseData('ok');
     }
 }

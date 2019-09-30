@@ -18,7 +18,7 @@ class BaseApiController extends Controller
      *
      * @return array
      */
-    protected function formatData($data): array
+    protected function formatResponseData($data): array
     {
         return ['data' => $data];
     }
@@ -30,7 +30,7 @@ class BaseApiController extends Controller
      *
      * @return array
      */
-    protected function formatErrData($message): array
+    protected function formatResponseErrData($message): array
     {
         return ['message' => $message];
     }

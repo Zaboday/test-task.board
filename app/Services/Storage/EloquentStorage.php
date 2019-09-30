@@ -19,6 +19,13 @@ class EloquentStorage implements StorageInterface
      */
     protected $model;
 
+    /**
+     * Model relations.
+     *
+     * @var array
+     */
+    protected $relations = [];
+
     public function __construct(Model $model)
     {
         $this->model = $model;

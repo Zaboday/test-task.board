@@ -15,5 +15,7 @@ class MessageEloquentStorage extends EloquentStorage implements MessageStorageIn
     public function __construct(Message $model)
     {
         parent::__construct($model);
+
+        $this->relations = ['user'];
     }
 }
