@@ -16,6 +16,14 @@ use App\Services\Storage\MessageEloquentStorage;
 class MessageEloquentStorageTest extends AbstractEloquentStorageTestCase
 {
     /**
+     * @return array
+     */
+    public function modelRelations(): array
+    {
+        return ['user'];
+    }
+
+    /**
      * @return Model
      */
     public function instanceModel(): Model

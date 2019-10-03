@@ -16,6 +16,14 @@ use App\Services\Storage\UserEloquentStorage;
 class UserEloquentStorageTest extends AbstractEloquentStorageTestCase
 {
     /**
+     * @return array
+     */
+    public function modelRelations(): array
+    {
+        return [];
+    }
+
+    /**
      * @return Model
      */
     public function instanceModel(): Model

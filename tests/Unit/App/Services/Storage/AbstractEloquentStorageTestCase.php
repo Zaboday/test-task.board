@@ -30,13 +30,7 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
         $data = ['foo' => Str::random(), 'bar' => Str::random()];
 
         $queryBuilder = m::mock(Builder::class)
-            ->expects('create')
-            ->withArgs(function ($attributes) use ($data) {
-                $this->assertSame($attributes, $data);
-
-                return true;
-            })
-            ->andReturn(true)->getMock();
+            ->expects('create')->with($data)->andReturn(true)->getMock();
 
         $model = m::mock(\get_class($this->instanceModel()))->expects('newQuery')->andReturn($queryBuilder)->getMock();
 
@@ -50,22 +44,12 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
     {
         $where = [Str::random(), Str::random(), Str::random()];
 
-        $queryBuilder1 = m::mock(Builder::class)
-            ->expects('first')->withNoArgs()
-            ->andReturn($result = $this->instanceModel())->getMock();
+        $queryBuilder = m::mock(Builder::class)
+            ->expects('where')->with($where[0], $where[1], $where[2])->andReturnSelf()->getMock()
+            ->expects('with')->with($this->modelRelations())->andReturnSelf()->getMock()
+            ->expects('first')->withNoArgs()->andReturn($result = $this->instanceModel())->getMock();
 
-        $queryBuilder2 = m::mock(Builder::class)
-            ->expects('where')
-            ->withArgs(function ($arg1, $arg2, $arg3) use ($where) {
-                $this->assertSame($arg1, $where[0]);
-                $this->assertSame($arg2, $where[1]);
-                $this->assertSame($arg3, $where[2]);
-
-                return true;
-            })
-            ->andReturn($queryBuilder1)->getMock();
-
-        $model = m::mock(\get_class($this->instanceModel()))->expects('newQuery')->andReturn($queryBuilder2)->getMock();
+        $model = m::mock(\get_class($this->instanceModel()))->expects('newQuery')->andReturn($queryBuilder)->getMock();
 
         $this->assertSame($result, $this->instanceFactory($model)->findBy($where));
     }
@@ -76,9 +60,8 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
     public function testFind(): void
     {
         $queryBuilder = m::mock(Builder::class)
-            ->expects('find')
-            ->with($id = \random_int(1, 1000))
-            ->andReturn($result = $this->instanceModel())->getMock();
+            ->expects('with')->with($this->modelRelations())->andReturnSelf()->getMock()
+            ->expects('find')->with($id = \random_int(1, 1000))->andReturn($result = $this->instanceModel())->getMock();
 
         $model = m::mock(\get_class($this->instanceModel()))->expects('newQuery')->andReturn($queryBuilder)->getMock();
 
@@ -92,22 +75,11 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
     {
         $where = [Str::random(), Str::random(), Str::random()];
 
-        $queryBuilder1 = m::mock(Builder::class)
-            ->expects('count')->withNoArgs()
-            ->andReturn($count = \random_int(1, 1000))->getMock();
+        $queryBuilder = m::mock(Builder::class)
+            ->expects('where')->with($where[0], $where[1], $where[2])->andReturnSelf()->getMock()
+            ->expects('count')->withNoArgs()->andReturn($count = \random_int(1, 1000))->getMock();
 
-        $queryBuilder2 = m::mock(Builder::class)
-            ->expects('where')
-            ->withArgs(function ($arg1, $arg2, $arg3) use ($where) {
-                $this->assertSame($arg1, $where[0]);
-                $this->assertSame($arg2, $where[1]);
-                $this->assertSame($arg3, $where[2]);
-
-                return true;
-            })
-            ->andReturn($queryBuilder1)->getMock();
-
-        $model = m::mock(\get_class($this->instanceModel()))->expects('newQuery')->andReturn($queryBuilder2)->getMock();
+        $model = m::mock(\get_class($this->instanceModel()))->expects('newQuery')->andReturn($queryBuilder)->getMock();
 
         $this->assertSame($count, $this->instanceFactory($model)->count($where));
     }
@@ -124,12 +96,32 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
             ->andReturnSelf()->getMock()
             ->shouldReceive('forPage')->with($page = \random_int(0, 10), $limit = \random_int(0, 10))
             ->andReturnSelf()->getMock()
+            ->expects('with')->with($this->modelRelations())->andReturnSelf()->getMock()
             ->shouldReceive('get')->withNoArgs()->andReturn($result = new Collection())->getMock();
 
         $model = m::mock(\get_class($this->instanceModel()))->expects('newQuery')->andReturn($queryBuilder)
             ->getMock();
 
         $this->assertSame($result, $this->instanceFactory($model)->page($page, $limit, $where));
+    }
+
+    /**
+     * @return void
+     *
+     * @throws \Exception
+     */
+    public function testPageWithoutWhere(): void
+    {
+        $queryBuilder = m::mock(Builder::class)
+            ->shouldReceive('forPage')->with($page = \random_int(0, 10), $limit = \random_int(0, 10))
+            ->andReturnSelf()->getMock()
+            ->expects('with')->with($this->modelRelations())->andReturnSelf()->getMock()
+            ->shouldReceive('get')->withNoArgs()->andReturn($result = new Collection())->getMock();
+
+        $model = m::mock(\get_class($this->instanceModel()))->expects('newQuery')->andReturn($queryBuilder)
+            ->getMock();
+
+        $this->assertSame($result, $this->instanceFactory($model)->page($page, $limit));
     }
 
     /**
@@ -161,4 +153,11 @@ abstract class AbstractEloquentStorageTestCase extends AbstractUnitTestCase
      * @return EloquentStorage
      */
     abstract public function instanceFactory($model): EloquentStorage;
+
+    /**
+     * Model relations.
+     *
+     * @return array
+     */
+    abstract public function modelRelations(): array;
 }

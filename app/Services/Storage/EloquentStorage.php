@@ -54,7 +54,7 @@ class EloquentStorage implements StorageInterface
      */
     public function findBy(array $where): ?Model
     {
-        return $this->newModelQuery()->where($where[0], $where[1], $where[2])->first();
+        return $this->newModelQuery()->where($where[0], $where[1], $where[2])->with($this->relations)->first();
     }
 
     /**
@@ -67,7 +67,7 @@ class EloquentStorage implements StorageInterface
     public function find($id): ?Model
     {
         /** @var Model|null $result */
-        $result = $this->newModelQuery()->find($id);
+        $result = $this->newModelQuery()->with($this->relations)->find($id);
 
         return $result;
     }
@@ -100,7 +100,7 @@ class EloquentStorage implements StorageInterface
             $query->where($where[0], $where[1], $where[2]);
         }
 
-        return $query->forPage($page, $limit)->get();
+        return $query->with($this->relations)->forPage($page, $limit)->get();
     }
 
     /**

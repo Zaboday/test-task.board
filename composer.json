@@ -62,7 +62,7 @@
             "@php artisan key:generate --ansi"
         ],
         "phpstan": "@php ./vendor/bin/phpstan analyze -c phpstan.neon --ansi --level=7 ./app",
-        "php-cs-fixer": "@php ./vendor/bin/php-cs-fixer --verbose fix --config=.php_cs",
+        "fix": "@php ./vendor/bin/php-cs-fixer --verbose fix --config=.php_cs",
         "phpunit": "@php ./vendor/bin/phpunit --no-coverage --color=always"
     }
 }

@@ -13,6 +13,8 @@
 
 Route::get('messages', 'Api\MessagesController@index');
 Route::get('messages/{id}', 'Api\MessagesController@show');
+Route::post('login', 'Api\UserRegisterController@login');
+Route::post('register', 'Api\UserRegisterController@register');
 
 Route::middleware('auth.api')->group(
     static function () {
