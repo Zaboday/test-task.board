@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             'api_token' => '111',
         ],
         [
-            'name' => 'User',
+            'name' => 'Simple User',
             'email' => 'not.admin@admin.com',
             'password' => 'secret',
             'is_admin' => false,

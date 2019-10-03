@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\PageRequest;
 use App\Http\Requests\StoreUserMessage;
 use App\Services\MessageBoard\BoardServiceInterface;
 use App\Services\Storage\Contracts\MessageStorageInterface;
@@ -18,13 +19,19 @@ class MessagesController extends BaseApiController
     /**
      * Display a listing of the resource.
      *
+     * @param PageRequest             $request
      * @param MessageStorageInterface $storage
      *
-     * @return array
+     * @return JsonResponse
      */
-    public function index(MessageStorageInterface $storage): array
+    public function index(PageRequest $request, MessageStorageInterface $storage): JsonResponse
     {
-        return $this->formatResponseData($storage->page(1, 10));
+        return response()->json(
+            $this->formatResponseData(
+                $storage->page($request->getPageNumber(), PageRequest::PAGE_SIZE, [], $request->getSortBy())),
+            200,
+            [PageRequest::HEADER_COUNT => $storage->count()]
+        );
     }
 
     /**
@@ -37,7 +44,11 @@ class MessagesController extends BaseApiController
      */
     public function store(StoreUserMessage $request, BoardServiceInterface $service): JsonResponse
     {
-        $service->createMessage($request->user()->id, $request->get('text'));
+        $service->createMessage(
+            $request->user()->id,
+            $request->get('text'),
+            $request->get('title')
+        );
 
         return response()->json($this->formatResponseData([]), 201);
     }

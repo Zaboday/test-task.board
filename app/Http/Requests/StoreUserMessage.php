@@ -31,6 +31,18 @@ class StoreUserMessage extends FormRequest
     {
         return [
             'text' => 'required|string',
+            'title' => 'required|string',
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'text.required' => 'Сообщение не может быть пустым',
+            'title.required' => 'Заголовок не может быть пустым',
         ];
     }
 }

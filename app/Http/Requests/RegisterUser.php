@@ -30,13 +30,12 @@ class RegisterUser extends FormRequest
             'name' => [
                 'required',
                 'alpha_num',
-                'min:8',
+                'min:3',
             ],
             'password' => [
                 'required',
                 'confirmed',
-                'min:6',
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+                'min:3',
             ],
         ];
     }

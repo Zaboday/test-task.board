@@ -8,8 +8,9 @@ use App\Models\Message;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @group model
- * @group model_message
+ * @group  model
+ * @group  model_message
+ * @covers \App\Models\Message
  */
 class MessageTest extends AbstractModelTestCase
 {
@@ -20,6 +21,8 @@ class MessageTest extends AbstractModelTestCase
     {
         return [
             'text',
+            'title',
+            'user_id',
         ];
     }
 

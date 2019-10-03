@@ -25,6 +25,7 @@ yarn-error.log
 
 # Temp dirs & trash
 /temp
+/_temp
 /tmp
 /build
 /.build

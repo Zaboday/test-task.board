@@ -59,8 +59,6 @@ class User extends Authenticatable
         'api_token',
         'created_at',
         'updated_at',
-        'id',
-        'is_admin',
         'email',
     ];
 

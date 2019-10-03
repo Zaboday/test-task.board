@@ -54,7 +54,7 @@ interface StorageInterface
      *
      * @return mixed
      */
-    public function page(int $page, int $limit, array $where = []);
+    public function page(int $page, int $limit, array $where = [], string $sortBy = null);
 
     /**
      * Delete entity.

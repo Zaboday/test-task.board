@@ -19,13 +19,13 @@ class UserRegisterController extends BaseApiController
      * @param LoginUser                    $request
      * @param RegistrationServiceInterface $service
      *
-     * @return array
+     * @return mixed
      */
-    public function login(LoginUser $request, RegistrationServiceInterface $service): array
+    public function login(LoginUser $request, RegistrationServiceInterface $service)
     {
         $user = $service->getUserByCredentials($request->get('email'), $request->get('password'));
         if (!$user) {
-            return response()->json($this->formatResponseErrData('Email or Password is invalid.'), 401);
+            return response()->json($this->formatResponseErrData('Вход в систему с указанными данными невозможен.'), 401);
         }
 
         return $this->formatResponseData(['user' => $user, 'api_token' => $user->api_token]);

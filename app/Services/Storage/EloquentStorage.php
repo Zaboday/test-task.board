@@ -81,23 +81,38 @@ class EloquentStorage implements StorageInterface
      */
     public function count(array $where = []): int
     {
-        return $this->newModelQuery()->where($where[0], $where[1], $where[2])->count();
+        $query = $this->newModelQuery();
+        if ($where) {
+            $query->where($where[0], $where[1], $where[2]);
+        }
+
+        return $query->count();
     }
 
     /**
      * Get page of entities.
      *
-     * @param int   $page
-     * @param int   $limit
-     * @param array $where
+     * @param int         $page
+     * @param int         $limit
+     * @param array       $where
+     * @param string|null $sortBy
      *
      * @return Collection
      */
-    public function page(int $page, int $limit, array $where = []): Collection
+    public function page(int $page, int $limit, array $where = [], string $sortBy = null): Collection
     {
         $query = $this->newModelQuery();
         if ($where) {
             $query->where($where[0], $where[1], $where[2]);
+        }
+
+        if ($sortBy) {
+            $direction = 'asc';
+            if ('-' === $sortBy[0]) {
+                $sortBy = \substr($sortBy, 1);
+                $direction = 'desc';
+            }
+            $query->orderBy($sortBy, $direction);
         }
 
         return $query->with($this->relations)->forPage($page, $limit)->get();

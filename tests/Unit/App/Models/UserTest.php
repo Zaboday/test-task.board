@@ -8,8 +8,10 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @group model
- * @group model_user
+ * @group  model
+ * @group  model_user
+ *
+ * @covers \App\Models\User
  */
 class UserTest extends AbstractModelTestCase
 {
@@ -35,8 +37,6 @@ class UserTest extends AbstractModelTestCase
             'api_token',
             'created_at',
             'updated_at',
-            'id',
-            'is_admin',
             'email',
         ];
     }

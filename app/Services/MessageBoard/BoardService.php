@@ -33,19 +33,20 @@ class BoardService implements BoardServiceInterface
     /**
      * @param int    $userId
      * @param string $text
+     * @param string $title
      *
      * @return bool
      */
-    public function createMessage(int $userId, string $text): bool
+    public function createMessage(int $userId, string $text, string $title): bool
     {
         $this->findUser($userId);
 
         return $this->messageStorage->create([
-            [
                 'user_id' => $userId,
                 'text' => $text,
-            ],
-        ]);
+                'title' => $title,
+            ]
+        );
     }
 
     /**
@@ -61,10 +62,10 @@ class BoardService implements BoardServiceInterface
         $user = $this->findUser($userIdWhoDelete);
         $message = $this->messageStorage->find($messageId);
         if (!$message) {
-            throw new EntityNotFoundException('Message not found.');
+            throw new EntityNotFoundException('Сообщение не найдено.');
         }
         if ($message->user_id !== $user->id && !$user->is_admin) {
-            throw new \InvalidArgumentException('Only Author or Admin can delete Message.');
+            throw new \InvalidArgumentException('Только автор может удалить сообщение.');
         }
         $message->delete();
     }

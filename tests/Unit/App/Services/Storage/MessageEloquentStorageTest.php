@@ -10,8 +10,10 @@ use App\Services\Storage\EloquentStorage;
 use App\Services\Storage\MessageEloquentStorage;
 
 /**
- * @group storage
- * @group storage_eloquent
+ * @group  storage
+ * @group  storage_eloquent
+ *
+ * @covers \App\Services\Storage\MessageEloquentStorage
  */
 class MessageEloquentStorageTest extends AbstractEloquentStorageTestCase
 {

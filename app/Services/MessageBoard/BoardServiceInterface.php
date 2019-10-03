@@ -12,10 +12,11 @@ interface BoardServiceInterface
     /**
      * @param int    $userId
      * @param string $text
+     * @param string $title
      *
      * @return bool
      */
-    public function createMessage(int $userId, string $text): bool;
+    public function createMessage(int $userId, string $text, string $title): bool;
 
     /**
      * Delete message by author or admin.

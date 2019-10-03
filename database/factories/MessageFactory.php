@@ -22,6 +22,7 @@ $factory->define(
 
         return [
         'text' => $faker->text,
+        'title' => $faker->text(50),
         'user_id' => $user->id,
     ];
     }

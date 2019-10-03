@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int                             $id
  * @property int                             $user_id
  * @property string                          $text
+ * @property string                          $title
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null                     $deleted_at
@@ -37,6 +38,8 @@ class Message extends Model
      */
     protected $fillable = [
         'text',
+        'title',
+        'user_id',
     ];
 
     /**

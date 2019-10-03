@@ -35,10 +35,9 @@ class RegistrationService implements RegistrationServiceInterface
      */
     public function getUserByCredentials(string $email, string $password): ?User
     {
-        /** @var User $user */
         $user = $this->findUserByEmail($email);
 
-        if (!$user) {
+        if (null === $user) {
             return null;
         }
 
@@ -81,8 +80,12 @@ class RegistrationService implements RegistrationServiceInterface
             'name' => $name,
             'is_admin' => false,
         ]);
+        $created = $this->findUserByEmail($email);
+        if (!$created) {
+            throw new \LogicException('Ошибка при создании пользователя.');
+        }
 
-        return $this->findUserByEmail($email);
+        return $created;
     }
 
     /**
